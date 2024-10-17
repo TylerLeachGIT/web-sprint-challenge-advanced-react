@@ -47,13 +47,13 @@ export default function AppFunctional(props) {
 
     switch (direction) {
       case 'left':
-        return currentX > 0 ? index -1 : index;
+        return currentX > 0 ? index -1 : -1;
       case 'right':
-        return currentX < 2 ? index + 1 : index;
+        return currentX < 2 ? index + 1 : -1;
       case 'up':
-        return currentY > 0 ? index - 3 : index;
+        return currentY > 0 ? index - 3 : -1;
       case 'down':
-        return currentY < 2 ? index + 3 : index;
+        return currentY < 2 ? index + 3 : -1;
       default:
         return index;
     }
@@ -62,13 +62,17 @@ export default function AppFunctional(props) {
   function move(evt) {
     const direction = evt.target.id;
     const newIndex = getNextIndex(direction);
-    if (newIndex !== index) {
+    if (newIndex === -1) {
+      setMessage(`You can't go ${direction}`);
+    } else if (newIndex !== index) {
       setIndex(newIndex);
       setSteps(steps + 1);
+      setMessage('');
     }
+   }
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-  }
+  
 
   function onChange(evt) {
     // You will need this to update the value of the input.
@@ -115,7 +119,7 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 id="message"></h3>
+        <h3 id="message">{message}</h3>
       </div>
       <div id="keypad">
         <button id="left"   onClick={move}>LEFT</button>
