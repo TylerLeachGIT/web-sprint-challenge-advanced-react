@@ -102,14 +102,15 @@ export default function AppFunctional(props) {
         body: JSON.stringify({ x, y, steps, email }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Server responded with an error');
+        throw new Error(data.message || 'An error occurred');
       }
 
-      const data = await response.json();
       setMessage(data.message);
     } catch (error) {
-      setMessage(error.message || 'An error occurred');
+      setMessage(error.message);
     }
   }
 
