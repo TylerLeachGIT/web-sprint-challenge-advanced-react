@@ -30,6 +30,10 @@ export default function AppFunctional(props) {
     return `Coordinates (${x}, ${y})`;
   }
 
+  function getMovesMessage() {
+    return `You moved ${steps} ${steps === 1 ? 'time' : 'times'}`;
+  }
+
   function reset() {
     // Use this helper to reset all states to their initial values.
     setIndex(initialIndex);
@@ -82,6 +86,12 @@ export default function AppFunctional(props) {
   async function onSubmit(evt) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
+
+    if (!email.trim()) {
+      setMessage('Ouch: email is required');
+      return
+    }
+
     const { x, y } = getXY();
     try {
       const response = await fetch('http://localhost:9000/api/result', {
@@ -107,7 +117,7 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">{getXYMessage()}</h3>
-        <h3 id="steps">You moved {steps} times</h3>
+        <h3 id="steps">{getMovesMessage()}</h3>
       </div>
       <div id="grid">
         {
