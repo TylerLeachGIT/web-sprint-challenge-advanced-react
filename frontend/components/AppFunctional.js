@@ -111,6 +111,8 @@ export default function AppFunctional(props) {
       setMessage(data.message);
     } catch (error) {
       setMessage(error.message);
+    } finally {
+      setEmail(initialEmail);
     }
   }
 
